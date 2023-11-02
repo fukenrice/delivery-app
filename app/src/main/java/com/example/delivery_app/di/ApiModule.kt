@@ -1,5 +1,6 @@
 package com.example.delivery_app.di
 
+import com.example.delivery_app.data.api.ProductsApi
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -24,5 +25,10 @@ class ApiModule {
             .addConverterFactory(gson)
             .build()
         return retrofit
+    }
+
+    @Provides
+    fun provideApi(retrofit: Retrofit): ProductsApi {
+        return retrofit.create(ProductsApi::class.java)
     }
 }
