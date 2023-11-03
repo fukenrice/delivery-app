@@ -3,4 +3,6 @@
     <string name="title_menu">Меню</string>
     <string name="title_profile">Профиль</string>
     <string name="title_basket">Корзина</string>
+    <string name="product_name_sample">Ветчина и грибы</string>
+    <string name="product_desc_sample">Ветчина, шампиньоны, увеличенная порция моцареллы, томатный соус</string>
 </resources>
