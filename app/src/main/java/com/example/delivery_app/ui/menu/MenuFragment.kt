@@ -1,7 +1,6 @@
 package com.example.delivery_app.ui.menu
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,16 +8,22 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.delivery_app.App
 import com.example.delivery_app.data.model.Product
 import com.example.delivery_app.databinding.FragmentMenuBinding
+import com.example.delivery_app.ui.menu.adapter.BannersAdapter
+import com.example.delivery_app.ui.menu.adapter.CategoriesAdapter
 import com.example.delivery_app.ui.menu.adapter.ProductsAdapter
+import com.example.delivery_app.ui.utils.OffsetItemDecoration
 import com.example.delivery_app.utils.Status
 
 class MenuFragment : Fragment() {
 
     private var _binding: FragmentMenuBinding? = null
-    private lateinit var adapter: ProductsAdapter
+    private lateinit var productsAdapter: ProductsAdapter
+    private lateinit var bannersAdapter: BannersAdapter
+    private lateinit var categoriesAdapter: CategoriesAdapter
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -46,19 +51,32 @@ class MenuFragment : Fragment() {
         }
     }
 
-    fun setupView() {
-        binding.apply {
-            adapter = ProductsAdapter({ }, mutableListOf())
-            rvProducts.layoutManager = LinearLayoutManager(context)
-            rvProducts.adapter = adapter
+    private fun setupView() {
+        productsAdapter = ProductsAdapter({ }, mutableListOf())
+        bannersAdapter = BannersAdapter({ }, viewModel.banners.value!!.toMutableList())
+        categoriesAdapter = CategoriesAdapter({ categoryName -> changeSelected(categoryName) }, viewModel.categories.value!!, 0)
 
+
+        binding.apply {
             pullToRefresh.setOnRefreshListener {
                 viewModel.fetchData()
             }
+
+            rvProducts.layoutManager = LinearLayoutManager(context)
+            rvProducts.adapter = productsAdapter
+            rvProducts.addItemDecoration(OffsetItemDecoration(bottomOffset = 8))
+
+            rvBanners.adapter = bannersAdapter
+            rvBanners.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            rvBanners.addItemDecoration(OffsetItemDecoration(rightOffset = 32))
+
+            rvCategories.adapter = categoriesAdapter
+            rvCategories.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            rvCategories.addItemDecoration(OffsetItemDecoration(rightOffset = 16))
         }
     }
 
-    fun setupObserver() {
+    private fun setupObserver() {
         viewModel.productsList.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
@@ -81,9 +99,18 @@ class MenuFragment : Fragment() {
         _binding = null
     }
 
+    private fun changeSelected(selectedCategory: String) {
+        if (selectedCategory == viewModel.selectedCategory) {
+            return
+        }
+        viewModel.categories.value!![viewModel.selectedCategory] = false
+        viewModel.categories.value!![selectedCategory] = true
+        viewModel.selectedCategory = selectedCategory
+    }
+
     private fun renderList(products: List<Product>) {
-        adapter.clear()
-        adapter.addData(products)
-        adapter.notifyDataSetChanged()
+        productsAdapter.clear()
+        productsAdapter.addData(products)
+        productsAdapter.notifyDataSetChanged()
     }
 }

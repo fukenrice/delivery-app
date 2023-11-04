@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.delivery_app.R
 import com.example.delivery_app.data.api.ProductsApi
 import com.example.delivery_app.data.model.Product
 import com.example.delivery_app.utils.Resource
@@ -15,8 +16,21 @@ private const val TAG = "MenuViewModel"
 
 class MenuViewModel @Inject constructor(
     private val api: ProductsApi, private val dispatcher: CoroutineDispatcher
-): ViewModel() {
+) : ViewModel() {
     val productsList = MutableLiveData<Resource<List<Product>>>(Resource.loading(listOf()))
+
+    val banners = MutableLiveData(listOf(R.drawable.banner1, R.drawable.banner2))
+
+    val categories = MutableLiveData(
+        mutableMapOf(
+            "Пицца" to true,
+            "Комбо" to false,
+            "Дессерты" to false,
+            "Напитки" to false
+        )
+    )
+
+    var selectedCategory = "Пицца"
 
     fun fetchData() {
         viewModelScope.launch(dispatcher) {
