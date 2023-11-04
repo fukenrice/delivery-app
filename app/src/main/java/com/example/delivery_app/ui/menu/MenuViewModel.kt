@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.delivery_app.R
 import com.example.delivery_app.data.api.ProductsApi
 import com.example.delivery_app.data.model.Product
+import com.example.delivery_app.utils.ReferenceInt
 import com.example.delivery_app.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -31,6 +32,8 @@ class MenuViewModel @Inject constructor(
     )
 
     var selectedCategory = "Пицца"
+
+    var selectedPosition = ReferenceInt(0)
 
     fun fetchData() {
         viewModelScope.launch(dispatcher) {

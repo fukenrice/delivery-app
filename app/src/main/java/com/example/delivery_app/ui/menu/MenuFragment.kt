@@ -54,7 +54,7 @@ class MenuFragment : Fragment() {
     private fun setupView() {
         productsAdapter = ProductsAdapter({ }, mutableListOf())
         bannersAdapter = BannersAdapter({ }, viewModel.banners.value!!.toMutableList())
-        categoriesAdapter = CategoriesAdapter({ categoryName -> changeSelected(categoryName) }, viewModel.categories.value!!, 0)
+        categoriesAdapter = CategoriesAdapter({ categoryName -> changeSelected(categoryName) }, viewModel.categories.value!!, viewModel.selectedPosition)
 
 
         binding.apply {

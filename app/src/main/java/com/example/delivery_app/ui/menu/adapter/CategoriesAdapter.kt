@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.delivery_app.R
 import com.example.delivery_app.databinding.CategoryItemBinding
+import com.example.delivery_app.utils.ReferenceInt
 
 class CategoriesAdapter(
     private val onItemClicked: (categoryName: String) -> Unit,
     private val data: MutableMap<String, Boolean>,
-    private var selectedPosition: Int
+    private var selectedPosition: ReferenceInt
 ) : RecyclerView.Adapter<CategoriesAdapter.CategoriesViewHolder>() {
 
     inner class CategoriesViewHolder(
@@ -23,9 +24,9 @@ class CategoriesAdapter(
             val binding = CategoryItemBinding.bind(itemView)
             itemView.setOnClickListener {
                 onItemClicked(category.first)
-                notifyItemChanged(selectedPosition)
+                notifyItemChanged(selectedPosition.value)
                 notifyItemChanged(position)
-                selectedPosition = position
+                selectedPosition.value = position
             }
             binding.apply {
                 binding.tvCategoryName.text = category.first
