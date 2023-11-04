@@ -5,5 +5,8 @@
     <string name="title_basket">Корзина</string>
     <string name="product_name_sample">Ветчина и грибы</string>
     <string name="product_desc_sample">Ветчина, шампиньоны, увеличенная порция моцареллы, томатный соус</string>
-    <string name="sample_city_name">Москва</string>
+    <string name="city_name_sample">Москва</string>
+    <string name="category_name_sample">Пицца</string>
+    <string name="price_sample">от 345 р</string>
+    <string name="price">от %1$d р</string>
 </resources>
