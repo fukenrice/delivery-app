@@ -49,7 +49,7 @@ class MenuViewModel @Inject constructor(
                         listOf()
                     )
                 )
-                Log.d(TAG, "getRegions: " + e.message)
+                Log.d(TAG, "fetchData: " + e.message)
             }
         }
 
